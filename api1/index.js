@@ -24,7 +24,7 @@ app.use('/uploads', express.static(__dirname+'/uploads'));
 
 app.use(
     cors({
-         origin: 'http://127.0.0.1:5173', // Update this with your frontend URL
+         origin: 'https://homily-frontend.vercel.app/', // Update this with your frontend URL
          credentials: true,
          methods :{"POST","GET"}
      
