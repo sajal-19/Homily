@@ -23,13 +23,12 @@ app.use(cookieParser());
 app.use('/uploads', express.static(__dirname+'/uploads'));
 
 app.use(
-    cors({
-         origin: 'https://homily-frontend.vercel.app', // Update this with your frontend URL
-         credentials: true,
-         methods :{"POST","GET"}
-     
-    })
-  ); 
+  cors({
+    origin: process.env.NODE_ENV === 'development' ? '*' : 'https://homily-frontend.vercel.app',
+    credentials: true,
+    methods: ["POST", "GET"]
+  })
+);
 //console.log(process.env.Mongo_Url)
 
 // Wrap mongoose.connect in a try-catch block
