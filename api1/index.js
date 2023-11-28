@@ -219,4 +219,6 @@ app.post('/logout', (req,res) => {
     res.json( await Booking.find({user:userData.id}).populate('place') );
   });
   
-app.listen(4000);
+app.listen(4000, () => {
+    console.log("Server is Running")
+})
