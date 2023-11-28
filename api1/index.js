@@ -44,6 +44,9 @@ try {
 app.get('/test' ,(req,res)=>{
     res.json('test done');
 });
+app.get('/', (req, res) => {
+  res.send('Welcome to the Homily API');
+});
 
 app.post('/register' ,async (req,res)=>{
     const {name,email,password} = req.body;
