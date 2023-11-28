@@ -30,8 +30,6 @@ app.use(
     optionsSuccessStatus: 204, // Add this line
   })
 );
-app.options('*', cors());
-//console.log(process.env.Mongo_Url)
 
 // Wrap mongoose.connect in a try-catch block
 try {
