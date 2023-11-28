@@ -50,20 +50,45 @@ app.get('/', (req, res) => {
   res.send('Welcome to the Homily API');
 });
 
-app.post('/register' ,async (req,res)=>{
-    const {name,email,password} = req.body;
+
+app.post('/places', async (req, res) => {
+  const { token } = req.cookies;
+
+  // Log the received token for debugging
+  console.log('Received Token:', token);
+
+  // Handle the case where the token is missing
+  if (!token) {
+    return res.status(401).json({ error: 'Token is missing' });
+  }
+
+  jwt.verify(token, jwtSecret, {}, async (err, userData) => {
+    if (err) {
+      console.error('Error verifying token:', err);
+      return res.status(500).json({ error: 'Internal Server Error' });
+    }
 
     try {
-        
-      const userDoc = await User.create({
-         name,
-        email,
-        password:bcrypt.hashSync(password, bcryptSalt),
+      const placeDoc = await Place.create({
+        owner: userData.id,
+        title: req.body.title,
+        address: req.body.address,
+        photos: req.body.addedPhotos,
+        description: req.body.description,
+        perks: req.body.perks,
+        extraInfo: req.body.extraInfo,
+        checkIn: req.body.checkIn,
+        checkOut: req.body.checkOut,
+        maxGuests: req.body.maxGuests,
+        price: req.body.price,
       });
-      res.json(userDoc);
+
+      res.json(placeDoc);
     } catch (e) {
-      res.status(422).json(e);
+      console.error('Error creating place:', e);
+      res.status(500).json({ error: 'Internal Server Error' });
     }
+  });
 });
 
 app.post('/login',async(req,res)=>{
